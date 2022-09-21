@@ -8,12 +8,28 @@ output:
 
 ## Loading and preprocessing the data
 
-
+```{r,echo=TRUE}
+library(ggplot2)
+df_data <- read.csv("activity.csv")
+summary(df_data)
+#head(df_data)
+```
 
 ## What is mean total number of steps taken per day?
+```{r,echo=TRUE}
+na_mask <- !is.na(df_data[,'steps']) 
+df_steps <- df_data[na_mask,]
+df_steps[,'steps'] <- as.numeric(df_steps[,'steps'])
 
-
-
+summary(df_steps)
+mean_steps_per_day <- lapply(split(df_steps[,'steps'],df_steps[,'date']),mean)
+length(mean_steps_per_day)
+dates<- unique(df_steps[,'date'])
+length(dates)
+#print(mean_steps_per_day)
+plot(dates,mean_steps_per_day)
+#ggplot(df_steps,aes(x=df_steps[,'date'])) + geom_histogram(aes(y=mean_steps_per_day))
+```
 ## What is the average daily activity pattern?
 
 
